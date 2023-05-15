@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+</head>
+<body>
+    <h1 style="text-align: center;">
+        Sign up here
+    </h1>
+    <br>
+    {% for msg in messages %}
+    <h5 style="color: red;text-align: center;">{{msg}}</h5>
+    {% endfor %}
+    <form method="POST" action="register">
+        {% csrf_token %}
+        <!-- <label for="i1">Enter Username (organisation name):</label>
+        <input type="text" id="i1" name="username"/>
+        <br> -->
+        <label for="i2">Enter Email:</label>
+        <input type="email" id="i2" name="email"/>
+        <br>
+        <label for="i5">Enter Contact Phone:</label>
+        <input type="tel" id="i5" name="phone"/>
+        <br>
+        <label for="i3">Enter Password:</label>
+        <input type="password" id="i3" name="password"/>
+        <br>
+        <label for="i4">Re-enter Password:</label>
+        <input type="password" id="i4" name="password2"/>
+        <br>
+        <input type="submit"/>
+    </form>
+    <br>
+    Have an account already?  <a href="login">Login here</a>
+</body>
+</html>

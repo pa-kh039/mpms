@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>settings</title>
+</head>
+<body>
+
+    {% for msg in messages %}
+    <h5 style="color: red;text-align: center;">{{msg}}</h5>
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <h2>Current Settings:</h2>
+        Total Floors: {{totalfloors}}
+        <br>
+        Fare per interval (3 mins): {{fpi}}
+        <br>
+        Threshold (%): {{threshold}}
+        <br>
+        <h2>Set new values below:</h2>
+        <form action="settings" method="POST">
+            {% csrf_token %}
+            <label for="i1">Enter Total Floors:</label>
+            <input type="number" id="i1" name="totalfloors"/>
+            <br>
+            <label for="i2">Enter Fare per interval (3 mins):</label>
+            <input type="number" id="i2" name="fpi"/>
+            <br>
+            <label for="i3">Enter Threshold (%):</label>
+            <input type="number" id="i3" name="threshold"/>
+            <br>
+            <input type="submit"/>
+        </form>
+        <br>
+        <a href="logout">Log Out</a>
+        <br>
+        <a href="exit">exit page</a>
+        <br>
+        <a href="floor">floor page</a>
+        <br>
+        <a href="entry">entry page</a>
+    {% else %}
+        <a href="login">First, login here</a>
+    {% endif %}
+</body>
+</html>

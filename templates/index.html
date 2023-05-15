@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilevel Parking Management System</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Multilevel Parking Management System</h1>
+    <h3>Problems being faced earlier:</h3>
+    <ol >
+        <li >Multiple guards at the entry and exit section of MLP(multilevel parking), and one guard for each of the
+            floors above the ground floor.</li>
+        <li >Static pricing - a fixed charge(25rs for 4 wheelers & 12rs for 2 wheelers) is taken for parking duration
+            ranging from 0 - 4 hours. Then extra charge is taken if the owner of the vehicle exceeds the time limit
+            (this happens at the exit section).</li>
+        <li >All payments are currently being done in cash which is time taking as well as not so convenient for all
+            vehicle owners.</li>
+        <li >No system to keep track of how many cars are parked on each floor. This can lead to crowded parking
+            (lower floors are heavily crowded, while upper floors might be empty). The guards on each floor do not
+            work well, as a result, vehicle owners have to waste time and energy searching for space on each of
+            the lower floors before parking on some upper floor.</li>
+        <li >No system to charge fines to vehicle owners who park their vehicles improperly and cause
+            inconvenience to other vehicle owners.</li>
+        <li >No detailed collection of data on entry-exit of cars, which could be used to find out the peak hours and
+            adopt dynamic pricing</li>
+    </ol>
+    <h3>Features introduced to solve the above problems:</h3>
+    <ol >
+        <li>Only 2 guards needed - for entry/exit irrespective of the number of floors (if floors increase because of
+            traffic load, the number of guards still remains same)</li>
+        <li>Dynamic pricing model will be used by the system to calculate fares - higher fares will be taken during
+            rush/peak hours of traffic</li>
+        <li>An option to pay online via dynamic QR codes - vehicle owners only scan and fill UPI pin (amount to be
+            paid is already fed to the QR code) - Digital Payments are promoted, time is saved, and convenient for
+            many people</li>
+        <li>The cameras at each floor will be utilised to keep track of cars at each floor. Accordingly, the system will
+            assign floors, based on a routing algorithm, to new cars at the entry section hence will ensure sparse/
+            distributed parking, and will save time of vehicle owners searching for space at each floor.</li>
+        <li>Since cameras are keeping track of cars on each floor, those cars parked on a floor different from the
+            floor assigned to them will fined at exit section.</li>
+        <li>A proper database is being maintained where details like car plate number, entry time, floor assigned,
+            floor entered, payment mode, amount of fine, etc will be stored which can be analyzed to determine
+            rush/peak hours and also for other essential information.</li>
+    </ol>
+    <h2 style="text-align: center;">Love the Solution ?</h2>
+    <center><button><a href="register">Sign Up Now !</a></button></center>
+    <br>
+    <center><button><a href="login">Login here</a></button></center>
+</body>
+</html>

@@ -1,0 +1,27 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from .manager import UserManager
+# Create your models here.
+
+# custom user model banana padega to add extra columns for settings wali fields
+class User(AbstractUser):
+    username=""
+    email=models.EmailField(null=False,unique=True)
+    phone=models.CharField(max_length=10,null=True)
+    totalfloors=models.IntegerField(null=True,blank=True)
+    fpi=models.FloatField(null=True,blank=True)  #if these field values are found empty/null while calculation then tell user to do settings first
+    threshold=models.IntegerField(null=True,blank=True) 
+
+    objects=UserManager()
+    REQUIRED_FIELDS=[]
+    USERNAME_FIELD='email'
+
+
+class ParkingEntry(models.Model):
+    # find entry timestamp and make a column for that
+    # is table ki primary key (user+entry timestamp) columns milake banegi
+    user=models.CharField(max_length=50,null=False,blank=False)
+    entrytimestamp=models.DateTimeField(null=False,blank=False)
+    car_number=models.CharField(max_length=10,null=False,blank=False)
+    floor_last_seen=models.IntegerField(blank=True,null=True)
+    # details=models.CharField(max_length=500)  #ye column pata nhi kis liye tha

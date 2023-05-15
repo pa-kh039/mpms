@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>floor</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    {% for msg in messages %}
+    <h5 style="color: red;text-align: center;">{{msg}}</h5>
+    {% endfor %}
+    <form method="POST" action="floor">
+        {% csrf_token %}
+        <label for="i1">Enter car number(without space):</label>
+        <input type="text" id="i1" name="car_number"/>
+        <br>
+        <label for="i2">Enter floor number:</label>
+        <input type="text" id="i2" name="floor_number"/>
+        <br>
+        <input type="submit"/>
+    </form>
+    <a href="exit">exit page</a>
+    <br>
+    <a href="entry">entry page</a>
+    <br>
+    <a href="settings">settings page</a>
+        <br>
+    <a href="logout">Log Out</a>
+    {% else %}
+    <a href="login">First, login here</a>
+    {% endif %}
+</body>
+</html>
