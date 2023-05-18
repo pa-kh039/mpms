@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User,auth
 from django.contrib.auth.models import auth
 from .models import * 
+from django.core.mail import send_mail
+# from django.conf import settings
 from django.contrib import messages
 
 import datetime
 import pytz
 import razorpay
-from mlp.settings import RAZORPAY_API_KEY,RAZORPAY_API_SECRET_KEY
+import uuid
+from mlp.settings import RAZORPAY_API_KEY,RAZORPAY_API_SECRET_KEY,EMAIL_HOST_USER
 
 # Create your views here.
 def index(request):
@@ -22,27 +25,47 @@ def register(request):
         password2=request.POST['password2']
 
         if password==password2:
-            # if User.objects.filter(username=username).exists():
-            #     messages.info(request,'Username already exists')
-            #     return redirect('register')
             if User.objects.filter(email=email).exists():
                 messages.info(request,'Email already used')
                 return redirect('register')
             
             else:
-                user=User.objects.create_user(email=email,password=password,phone=phone)
+                auth_token=str(uuid.uuid4())
+                user=User.objects.create_user(email=email,password=password,phone=phone,auth_token=auth_token)
                 user.save()
-                return redirect('login')
+                send_mail_after_registration(email,auth_token)
+                return redirect('/verifyemail')
         else:
             messages.info(request,"Both passwords are different")
             return redirect('register')
             
     return render(request,'register.html')
 
+def verifyemail(request):
+    return render(request,'emailsent.html')
+
+def verify(request,auth_token):
+    user_obj=User.objects.filter(auth_token=auth_token).first()
+    if user_obj:
+        if not user_obj.is_verified:
+            user_obj.is_verified=True 
+            user_obj.save()
+        messages.success(request,'email verified!')
+        return redirect('/login')
+    else:
+        messages.error('Could not verify ..')
+        return redirect('/register')
+
+
 def login(request):
     if request.method=="POST":
         email=request.POST['email']
         password=request.POST['password']
+
+        user_obj=User.objects.filter(email=email).first()
+        if not user_obj.is_verified:
+            messages.error(request,"Verify email first")
+            return redirect('/login')
 
         user=auth.authenticate(email=email,password=password) 
         #checking if the user with the given email and password exists in the databse or not
@@ -132,3 +155,11 @@ def floor(request):
         current_entry.save()
         messages.info(request,'Floor and car noted')
     return render(request,'floor.html')
+
+def send_mail_after_registration(email,token):
+    subject="Your account needs to be verified"
+    message= "Visit this link for verification: http://127.0.0.1:8000/verify/{}".format(token)
+    email_from=EMAIL_HOST_USER
+    recipient_list=[email]
+    send_mail(subject,message,email_from,recipient_list)
+    return True

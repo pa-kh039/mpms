@@ -10,5 +10,7 @@ urlpatterns=[
     path('exit',views.exit,name='exit'),
     path('floor',views.floor,name='floor'),
     path('pay',views.pay,name='pay'),
+    path('verify/<auth_token>',views.verify, name='verify'),
+    path('verifyemail',views.verifyemail,name='verifyemail'),
     path('logout',views.logout,name='logout')
 ]

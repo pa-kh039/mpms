@@ -8,6 +8,8 @@ class User(AbstractUser):
     username=""
     email=models.EmailField(null=False,unique=True)
     phone=models.CharField(max_length=10,null=True)
+    auth_token=models.CharField(max_length=100,default="NULL")
+    is_verified=models.BooleanField(default=False)
     totalfloors=models.IntegerField(null=True,blank=True)
     fpi=models.FloatField(null=True,blank=True)  #if these field values are found empty/null while calculation then tell user to do settings first
     threshold=models.IntegerField(null=True,blank=True) 
@@ -15,6 +17,9 @@ class User(AbstractUser):
     objects=UserManager()
     REQUIRED_FIELDS=[]
     USERNAME_FIELD='email'
+
+    # def __str__(self):
+    #     return str(self.email)
 
 
 class ParkingEntry(models.Model):
