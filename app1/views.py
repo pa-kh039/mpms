@@ -12,10 +12,11 @@ import razorpay
 import uuid
 from mlp.settings import RAZORPAY_API_KEY,RAZORPAY_API_SECRET_KEY,EMAIL_HOST_USER
 
-# Create your views here.
+# for main page
 def index(request):
     return render(request,'index.html')
 
+# for registration page
 def register(request):
     if request.method=="POST":
         # username=request.POST['username']
@@ -56,7 +57,7 @@ def verify(request,auth_token):
         messages.error('Could not verify ..')
         return redirect('/register')
 
-
+# for login page
 def login(request):
     if request.method=="POST":
         email=request.POST['email']
@@ -83,34 +84,64 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
+# for settings page
 def settings(request):
     if request.method=='POST':
         totalfloors=request.POST['totalfloors']
         fpi=request.POST['fpi']
         threshold=request.POST['threshold']
+        floorcapacity=request.POST['floorcapacity']
+        # updating user settings
         current_user_entry=User.objects.get(email=request.user)
         current_user_entry.totalfloors=totalfloors
         current_user_entry.fpi=fpi
         current_user_entry.threshold=threshold
+        current_user_entry.floorcapacity=floorcapacity
         current_user_entry.save()
+        # creating entries for floors of this user
+        for floor_number in range(1,int(totalfloors)+1):
+            floor=Floors.objects.create(user=str(request.user),floor_number=floor_number,cars_parked=0)
+            floor.save()
         messages.info(request,"Settings updated")
     else:
         current_user_entry=User.objects.get(email=request.user)
         totalfloors=current_user_entry.totalfloors
         fpi=current_user_entry.fpi
         threshold=current_user_entry.threshold
-    return render(request,'settings.html',{"fpi":fpi,"threshold":threshold,"totalfloors":totalfloors})
+        floorcapacity=current_user_entry.floorcapacity
+    return render(request,'settings.html',{"fpi":fpi,"threshold":threshold,"totalfloors":totalfloors,"floorcapacity":floorcapacity})
 
+def assign_floor(user):
+    user_obj=User.objects.get(email=user)
+    floors=Floors.objects.filter(user=str(user)).order_by('floor_number')
+    for floor in floors:
+        if floor.cars_parked <= (user_obj.floorcapacity//100)*user_obj.threshold:
+            floor.cars_parked+=1
+            floor.save()
+            return floor.floor_number
+    return -1
+
+# for entry page
 def entry(request):
     if request.method=='POST':
         car_number=(request.POST['car_number']).lower()
         current_time=datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
         user=str(request.user)
-        new_entry= ParkingEntry.objects.create(user=user,entrytimestamp=current_time,car_number=car_number)
+        floorassigned=assign_floor(request.user)
+        if floorassigned==-1:
+            messages.error(request,"No space available at any floor.. You may try after some time..")
+            return redirect('/entry')
+        new_entry= ParkingEntry.objects.create(user=user,entrytimestamp=current_time,car_number=car_number,floor_last_seen=0,floorassigned=floorassigned)
         new_entry.save()
-        messages.info(request,'Entry done')
+        messages.info(request,'Entry done. Please proceed to floor number {}. Entering a different floor will attract fine.'.format(floorassigned))
     return render(request,'entry.html')
 
+def decrement_car_count(user,floor_number):
+    floor=Floors.objects.get(user=user,floor_number=floor_number)
+    floor.cars_parked-=1
+    floor.save()
+
+# for exit page
 def exit(request):
     if request.method=='POST':
         car_number=request.POST['car_number']
@@ -119,11 +150,18 @@ def exit(request):
         # time_difference=type(last_entry.entrytimestamp)
         settings=User.objects.get(email=request.user)
         fpi=settings.fpi
-        calculated_fare= 1 + (time_difference//180)*fpi
+        if fpi==None:
+            messages.error(request,"Settings incomplete..")
+            return redirect('exit')
+        fine=0
+        if last_entry.floor_last_seen!=last_entry.floorassigned:
+            fine+=30
+        calculated_fare= 1 + (time_difference//180)*fpi + fine
         request.session['amount']=calculated_fare
-        # messages.info(request,"timed:{} fare:{} email:{}".format(time_difference,calculated_fare,str(request.user)))
-        # return render(request,'pay.html',{"amount":calculated_fare})
-        last_entry.delete()  #assuming this entry is not needed anymore and payment will surely be completed 
+        decrement_car_count(str(request.user),last_entry.floorassigned)
+        last_entry.delete()  #assuming this entry is not needed anymore and payment will surely be completed
+        if fine>0:
+            messages.info(request,"A fine of {} has been applied".format(fine)) 
         return redirect('pay') 
     return render(request,'exit.html')
 
@@ -141,15 +179,19 @@ def pay(request):
     context={'amount':max(0,request.session['amount']), 'api_key':RAZORPAY_API_KEY,'order_id':payment_order_id} 
     return render(request,'pay.html',context)
 
+# for floor page
 def floor(request):
     if request.method=='POST':
-        floor_number=request.POST['floor_number']
+        floor_number=int(request.POST['floor_number'])  #have to cast string to int 
         car_number=request.POST['car_number']
         current_user=str(request.user)
         try:
             current_entry=ParkingEntry.objects.get(user=current_user,car_number=car_number)
         except:
             messages.info(request,'Encountered error... probably this car does not exist in database')
+            return render(request,'floor.html')
+        if floor_number==current_entry.floor_last_seen:
+            messages.info(request,'Car has been seen on this floor already')
             return render(request,'floor.html')
         current_entry.floor_last_seen=floor_number
         current_entry.save()
@@ -158,7 +200,7 @@ def floor(request):
 
 def send_mail_after_registration(email,token):
     subject="Your account needs to be verified"
-    message= "Visit this link for verification: http://127.0.0.1:8000/verify/{}".format(token)
+    message= "Hello new user! Thanks for registering! Just 1 more step !    Visit this link for verification: http://127.0.0.1:8000/verify/{}".format(token)
     email_from=EMAIL_HOST_USER
     recipient_list=[email]
     send_mail(subject,message,email_from,recipient_list)

@@ -19,6 +19,8 @@
         <br>
         Threshold (%): {{threshold}}
         <br>
+        Floor Capacity: {{floorcapacity}}
+        <br>
         <h2>Set new values below:</h2>
         <form action="settings" method="POST">
             {% csrf_token %}
@@ -28,8 +30,11 @@
             <label for="i2">Enter Fare per interval (3 mins):</label>
             <input type="number" id="i2" name="fpi"/>
             <br>
-            <label for="i3">Enter Threshold (%):</label>
+            <label for="i3">Enter Threshold (%) (recommended value is 80%):</label>
             <input type="number" id="i3" name="threshold"/>
+            <br>
+            <label for="i4">Floor capacity:</label>
+            <input type="number" id="i4" name="floorcapacity"/>
             <br>
             <input type="submit"/>
         </form>

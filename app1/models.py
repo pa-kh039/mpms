@@ -13,6 +13,7 @@ class User(AbstractUser):
     totalfloors=models.IntegerField(null=True,blank=True)
     fpi=models.FloatField(null=True,blank=True)  #if these field values are found empty/null while calculation then tell user to do settings first
     threshold=models.IntegerField(null=True,blank=True) 
+    floorcapacity=models.IntegerField(null=True,blank=True) 
 
     objects=UserManager()
     REQUIRED_FIELDS=[]
@@ -29,4 +30,10 @@ class ParkingEntry(models.Model):
     entrytimestamp=models.DateTimeField(null=False,blank=False)
     car_number=models.CharField(max_length=10,null=False,blank=False)
     floor_last_seen=models.IntegerField(blank=True,null=True)
+    floorassigned=models.IntegerField(blank=False,default=-1)
     # details=models.CharField(max_length=500)  #ye column pata nhi kis liye tha
+
+class Floors(models.Model):
+    user=models.CharField(max_length=50,null=False,blank=False)
+    floor_number=models.IntegerField(blank=False)
+    cars_parked=models.IntegerField(blank=False,default=0)
