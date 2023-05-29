@@ -7,7 +7,26 @@
     <title>Multilevel Parking Management System</title>
 </head>
 <body>
-    <h1 style="text-align: center;">Multilevel Parking Management System</h1>
+    <!-- <h1 style="text-align: center;">Multilevel Parking Management System</h1> -->
+    {% load static %}
+    <div class="float-container" style="border: 3px solid #fff; padding: 20px;">
+
+        <div class="float-child" style="width: 47%;float: left;padding: 20px;">
+          <div><img src="{% static '../static/MLPMS.jpg' %}" height="270" width="270"></div>
+        </div>
+        
+        <div class="float-child" style="width: 47%;float: left;padding: 20px; height: 300px;">
+            <div>
+                <h2 style="text-align: center;">Love the Solution ?</h2>
+                <center><button><a href="register">Sign Up Now !</a></button></center>
+                <br>
+                <center><button><a href="login">Login here</a></button></center>
+            </div>
+        </div>
+        
+    </div>    
+    
+    
     <h3>Problems being faced earlier:</h3>
     <ol >
         <li >Multiple guards at the entry and exit section of MLP(multilevel parking), and one guard for each of the
@@ -44,9 +63,5 @@
             floor entered, payment mode, amount of fine, etc will be stored which can be analyzed to determine
             rush/peak hours and also for other essential information.</li>
     </ol>
-    <h2 style="text-align: center;">Love the Solution ?</h2>
-    <center><button><a href="register">Sign Up Now !</a></button></center>
-    <br>
-    <center><button><a href="login">Login here</a></button></center>
 </body>
 </html>

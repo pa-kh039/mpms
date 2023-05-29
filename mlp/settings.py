@@ -135,3 +135,7 @@ EMAIL_USE_TLS=True
 EMAIL_PORT=587
 EMAIL_HOST_USER= email
 EMAIL_HOST_PASSWORD=passw
+
+import os
+STATIC_URL = 'static/'
+STATICFILES_DIRS=(os.path.join(BASE_DIR,'static'),)
