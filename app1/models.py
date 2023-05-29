@@ -24,7 +24,8 @@ class User(AbstractUser):
 class ParkingEntry(models.Model):
     # find entry timestamp and make a column for that
     # is table ki primary key (user+entry timestamp) columns milake banegi
-    username=models.CharField(max_length=100,null=False,blank=False,default="NULL")
+    # username=models.CharField(max_length=100,null=False,blank=False,default="NULL")
+    username=models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
     entrytimestamp=models.DateTimeField(null=False,blank=False)
     car_number=models.CharField(max_length=10,null=False,blank=False)
     floor_last_seen=models.IntegerField(blank=True,null=True)
@@ -32,6 +33,7 @@ class ParkingEntry(models.Model):
     # details=models.CharField(max_length=500)  #ye column pata nhi kis liye tha
 
 class Floors(models.Model):
-    username=models.CharField(max_length=100,null=False,blank=False,default="NULL")
+    # username=models.CharField(max_length=100,null=False,blank=False,default="NULL")
+    username=models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True)
     floor_number=models.IntegerField(blank=False)
     cars_parked=models.IntegerField(blank=False,default=0)

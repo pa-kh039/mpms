@@ -105,8 +105,12 @@ def settings(request):
         current_user_entry.floorcapacity=floorcapacity
         current_user_entry.save()
         # creating entries for floors of this user
+        old_floors=Floors.objects.filter(username=request.user)
+        if old_floors:
+            for floor in old_floors:
+                floor.delete()
         for floor_number in range(1,int(totalfloors)+1):
-            floor=Floors.objects.create(username=str(request.user),floor_number=floor_number,cars_parked=0)
+            floor=Floors.objects.create(username=request.user,floor_number=floor_number,cars_parked=0)
             floor.save()
         messages.info(request,"Settings updated")
     else:
@@ -121,7 +125,7 @@ def settings(request):
 def assign_floor(user):
     # user_obj=User.objects.get(email=user)
     user_obj=User.objects.get(username=user)
-    floors=Floors.objects.filter(username=str(user)).order_by('floor_number')
+    floors=Floors.objects.filter(username=user).order_by('floor_number')
     for floor in floors:
         if floor.cars_parked <= (user_obj.floorcapacity*user_obj.threshold)//100:
             floor.cars_parked+=1
@@ -134,14 +138,14 @@ def entry(request):
     if request.method=='POST':
         car_number=(request.POST['car_number']).lower()
         current_time=datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
-        username=str(request.user)
+        username=request.user
         floorassigned=assign_floor(request.user)
         if floorassigned==-1:
             messages.error(request,"No space available at any floor.. You may try after some time..")
             return redirect('/entry')
         new_entry= ParkingEntry.objects.create(username=username,entrytimestamp=current_time,car_number=car_number,floor_last_seen=0,floorassigned=floorassigned)
         new_entry.save()
-        messages.info(request,'Entry done. Please proceed to floor number {}. Entering a different floor will attract fine.'.format(floorassigned))
+        messages.info(request,'Entry done. Please proceed to \nFLOOR NUMBER {}. \nEntering a different floor will attract fine.'.format(floorassigned))
     return render(request,'entry.html')
 
 def decrement_car_count(user,floor_number):
@@ -153,7 +157,11 @@ def decrement_car_count(user,floor_number):
 def exit(request):
     if request.method=='POST':
         car_number=request.POST['car_number']
-        last_entry=ParkingEntry.objects.get(username=str(request.user),car_number=car_number)
+        try:
+            last_entry=ParkingEntry.objects.get(username=request.user,car_number=car_number)
+        except:
+            messages.error(request,"Encountered error. Maybe car was not found in database..")
+            return redirect('exit')
         time_difference=(datetime.datetime.now(pytz.timezone('Asia/Kolkata'))-last_entry.entrytimestamp).seconds
         # time_difference=type(last_entry.entrytimestamp)
         settings=User.objects.get(username=request.user)
@@ -166,7 +174,7 @@ def exit(request):
             fine+=30
         calculated_fare= 1 + (time_difference//180)*fpi + fine
         # request.session['amount']=calculated_fare
-        decrement_car_count(str(request.user),last_entry.floorassigned)
+        decrement_car_count(request.user,last_entry.floorassigned)
         last_entry.delete()  #assuming this entry is not needed anymore and payment will surely be completed
         if fine>0:
             messages.info(request,"A fine of {} has been applied".format(fine)) 
@@ -194,7 +202,7 @@ def floor(request):
     if request.method=='POST':
         floor_number=int(request.POST['floor_number'])  #have to cast string to int 
         car_number=request.POST['car_number']
-        current_user=str(request.user)
+        current_user=request.user
         try:
             current_entry=ParkingEntry.objects.get(username=current_user,car_number=car_number)
         except:
