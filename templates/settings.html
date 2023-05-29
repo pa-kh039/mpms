@@ -21,6 +21,8 @@
         <br>
         Floor Capacity: {{floorcapacity}}
         <br>
+        Dynamic Pricing: {{dynamicpricing}}  <form action="change_dp_mode" method="POST">{% csrf_token %}<input type="submit" value="Change DP Mode"/></form>
+        <br>
         <h2>Set new values below:</h2>
         <h3>IMPORTANT: Please update the settings only when there are no cars inside..as the entire database is reset on updating settings</h3><br>
         <form action="settings" method="POST">

@@ -120,9 +120,10 @@ def settings(request):
         fpi=current_user_entry.fpi
         threshold=current_user_entry.threshold
         floorcapacity=current_user_entry.floorcapacity
-    return render(request,'settings.html',{"fpi":fpi,"threshold":threshold,"totalfloors":totalfloors,"floorcapacity":floorcapacity})
+        dynamicpricing=current_user_entry.dynamicpricing
+    return render(request,'settings.html',{"fpi":fpi,"threshold":threshold,"totalfloors":totalfloors,"floorcapacity":floorcapacity,"dynamicpricing":dynamicpricing})
 
-def assign_floor(user):
+def assign_floor(user): #-----------------pass user obj here from entry function
     # user_obj=User.objects.get(email=user)
     user_obj=User.objects.get(username=user)
     floors=Floors.objects.filter(username=user).order_by('floor_number')
@@ -136,15 +137,31 @@ def assign_floor(user):
 # for entry page
 def entry(request):
     if request.method=='POST':
+        username=request.user
+        user_obj=User.objects.get(username=username)
         car_number=(request.POST['car_number']).lower()
         current_time=datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
-        username=request.user
         floorassigned=assign_floor(request.user)
         if floorassigned==-1:
             messages.error(request,"No space available at any floor.. You may try after some time..")
             return redirect('/entry')
-        new_entry= ParkingEntry.objects.create(username=username,entrytimestamp=current_time,car_number=car_number,floor_last_seen=0,floorassigned=floorassigned)
+        total_capacity=user_obj.totalfloors*user_obj.floorcapacity
+        total_cars_inside=user_obj.total_cars_inside
+        if user_obj.dynamicpricing: #dynamic pricing is ON
+            if(total_cars_inside<(total_capacity/2)):
+                fpi=user_obj.fpi # <50%
+            elif(total_cars_inside<(total_capacity*0.65)):
+                fpi=2*user_obj.fpi # <65%
+            elif(total_cars_inside<(total_capacity*0.8)):
+                fpi=3*user_obj.fpi # <80%
+            else:
+                fpi=4*user_obj.fpi # >=80%
+        else: #dynamic pricing is OFF
+            fpi=user_obj.fpi
+        new_entry= ParkingEntry.objects.create(username=username,entrytimestamp=current_time,car_number=car_number,floor_last_seen=0,floorassigned=floorassigned,fpi=fpi)
         new_entry.save()
+        user_obj.total_cars_inside=total_cars_inside+1
+        user_obj.save()
         messages.info(request,'Entry done. Please proceed to \nFLOOR NUMBER {}. \nEntering a different floor will attract fine.'.format(floorassigned))
     return render(request,'entry.html')
 
@@ -152,6 +169,9 @@ def decrement_car_count(user,floor_number):
     floor=Floors.objects.get(username=user,floor_number=floor_number)
     floor.cars_parked-=1
     floor.save()
+    user_obj=User.objects.get(username=user)
+    user_obj.total_cars_inside=user_obj.total_cars_inside-1
+    user_obj.save()
 
 # for exit page
 def exit(request):
@@ -159,18 +179,18 @@ def exit(request):
         car_number=request.POST['car_number']
         try:
             last_entry=ParkingEntry.objects.get(username=request.user,car_number=car_number)
-        except:
-            messages.error(request,"Encountered error. Maybe car was not found in database..")
+        except Exception as e:
+            messages.error(request,"Encountered error: {}".format(e))
             return redirect('exit')
         time_difference=(datetime.datetime.now(pytz.timezone('Asia/Kolkata'))-last_entry.entrytimestamp).seconds
         # time_difference=type(last_entry.entrytimestamp)
-        settings=User.objects.get(username=request.user)
-        fpi=settings.fpi
-        if fpi==None:
+        # settings=User.objects.get(username=request.user)
+        fpi=last_entry.fpi
+        if fpi==None or fpi=="NULL":
             messages.error(request,"Settings incomplete..")
             return redirect('exit')
         fine=0
-        if last_entry.floor_last_seen!=last_entry.floorassigned:
+        if last_entry.floorassigned!=-1 and last_entry.floor_last_seen!=last_entry.floorassigned:
             fine+=30
         calculated_fare= 1 + (time_difference//180)*fpi + fine
         # request.session['amount']=calculated_fare
@@ -223,3 +243,13 @@ def send_mail_after_registration(username,email,token):
     recipient_list=[email]
     send_mail(subject,message,email_from,recipient_list)
     return True
+
+# function to turn dynamic pricing ON & OFF
+def change_dp_mode(request):
+    if request.method=='POST':
+        username=request.user
+        user_obj=User.objects.get(username=username)
+        user_obj.dynamicpricing=not(user_obj.dynamicpricing)
+        user_obj.save()
+        messages.info(request,"Dynamic Pricing mode changed..")
+    return redirect('settings')

@@ -12,5 +12,6 @@ urlpatterns=[
     path('pay/<str:amount>',views.pay,name='pay'),
     path('verify/<auth_token>',views.verify, name='verify'),
     path('verifyemail',views.verifyemail,name='verifyemail'),
+    path('change_dp_mode',views.change_dp_mode,name='change_dp_mode'),
     path('logout',views.logout,name='logout')
 ]
