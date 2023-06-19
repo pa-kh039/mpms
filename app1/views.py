@@ -5,6 +5,7 @@ from .models import *
 from django.core.mail import send_mail
 # from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 import datetime
 import pytz
@@ -90,6 +91,7 @@ def logout(request):
     return redirect('/')
 
 # for settings page
+@login_required(login_url="/login")
 def settings(request):
     if request.method=='POST':
         totalfloors=request.POST['totalfloors']
@@ -103,6 +105,7 @@ def settings(request):
         current_user_entry.fpi=fpi
         current_user_entry.threshold=threshold
         current_user_entry.floorcapacity=floorcapacity
+        dynamicpricing=current_user_entry.dynamicpricing
         current_user_entry.save()
         # creating entries for floors of this user
         old_floors=Floors.objects.filter(username=request.user)
@@ -135,6 +138,7 @@ def assign_floor(user): #-----------------pass user obj here from entry function
     return -1
 
 # for entry page
+@login_required(login_url="/login")
 def entry(request):
     if request.method=='POST':
         username=request.user
@@ -162,7 +166,7 @@ def entry(request):
         new_entry.save()
         user_obj.total_cars_inside=total_cars_inside+1
         user_obj.save()
-        messages.info(request,'Entry done. Please proceed to \nFLOOR NUMBER {}. \nEntering a different floor will attract fine.'.format(floorassigned))
+        messages.info(request,'Entry done!\n Car {} proceed to \nFLOOR NUMBER {}.'.format(car_number,floorassigned))
     return render(request,'entry.html')
 
 def decrement_car_count(user,floor_number):
@@ -174,6 +178,7 @@ def decrement_car_count(user,floor_number):
     user_obj.save()
 
 # for exit page
+@login_required(login_url="/login")
 def exit(request):
     if request.method=='POST':
         car_number=request.POST['car_number']
@@ -202,6 +207,7 @@ def exit(request):
     return render(request,'exit.html')
 
 client = razorpay.Client(auth=(RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY))
+@login_required(login_url="/login")
 def pay(request,amount):
     amount=float(amount)
     #this is in paise
@@ -218,6 +224,7 @@ def pay(request,amount):
     return render(request,'pay.html',context)
 
 # for floor page
+@login_required(login_url="/login")
 def floor(request):
     if request.method=='POST':
         floor_number=int(request.POST['floor_number'])  #have to cast string to int 

@@ -5,35 +5,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>register</title>
+     <!-- Font Icon -->
+     {%load static%}
+     <link rel="stylesheet" href="{%static '../static/register/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+     <!-- Main css -->
+     <link rel="stylesheet" href="{%static '../static/register/css/style.css' %}">
 </head>
 <body>
-    <h1 style="text-align: center;">
-        Sign up here
-    </h1>
-    <br>
-    {% for msg in messages %}
-    <h5 style="color: red;text-align: center;">{{msg}}</h5>
-    {% endfor %}
-    <form method="POST" action="register">
-        {% csrf_token %}
-        <label for="i1">Enter Username (organisation name):</label>
-        <input type="text" id="i1" name="username"/>
-        <br>
-        <label for="i2">Enter Email:</label>
-        <input type="email" id="i2" name="email"/>
-        <br>
-        <label for="i5">Enter Contact Phone:</label>
-        <input type="tel" id="i5" name="phone"/>
-        <br>
-        <label for="i3">Enter Password:</label>
-        <input type="password" id="i3" name="password"/>
-        <br>
-        <label for="i4">Re-enter Password:</label>
-        <input type="password" id="i4" name="password2"/>
-        <br>
-        <input type="submit"/>
-    </form>
-    <br>
-    Have an account already?  <a href="login">Login here</a>
+    <div class="main">
+        {% for msg in messages %}
+            <h4>{{msg}}</h4>
+        {%endfor%}
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register-form" action="register">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="username" id="name" placeholder="UserName"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-phone"></i></label>
+                                <input type="text" name="phone" id="phone" placeholder="Your contact number"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password2"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="password2" id="password2" placeholder="Repeat your password"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a  class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="{%static '../static/register/images/signup-image.jpg' %}" alt="sing up image"></figure>
+                        <a href="login" class="signup-image-link">I am already a user</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+<!-- JS -->
+<script src="{%static '../static/register/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{%static '../static/register/js/main.js' %}"></script>
 </body>
 </html>

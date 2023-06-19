@@ -5,64 +5,431 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multilevel Parking Management System</title>
+    <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon">
+    <!-- Bootstrap , fonts & icons  -->
+    {%load static%}
+    <link rel="stylesheet" href="{%static '../static/home/css/bootstrap.css'%}">
+    <link rel="stylesheet" href="{%static '../static/home/fonts/icon-font/css/style.css'%}">
+    <link rel="stylesheet" href="{%static '../static/home/fonts/typography-font/typo.css'%}">
+    <link rel="stylesheet" href="{%static '../static/home/fonts/fontawesome-5/css/all.css'%}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Plugin'stylesheets  -->
+    <link rel="stylesheet" href="{%static '../static/home/plugins/aos/aos.min.css'%}">
+    <link rel="stylesheet" href="{%static '../static/home/plugins/slick/slick.min.css'%}">
+    <!-- Vendor stylesheets  -->
+    <link rel="stylesheet" href="{%static '../static/home/css/main.css'%}">
 </head>
-<body>
-    <!-- <h1 style="text-align: center;">Multilevel Parking Management System</h1> -->
-    {% load static %}
-    <div class="float-container" style="border: 3px solid #fff; padding: 20px;">
-
-        <div class="float-child" style="width: 47%;float: left;padding: 20px;">
-          <div><img src="{% static '../static/MLPMS.jpg' %}" height="270" width="270"></div>
-        </div>
-        
-        <div class="float-child" style="width: 47%;float: left;padding: 20px; height: 300px;">
-            <div>
-                <h2 style="text-align: center;">Love the Solution ?</h2>
-                <center><button><a href="register">Sign Up Now !</a></button></center>
-                <br>
-                <center><button><a href="login">Login here</a></button></center>
+<body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';">
+    <div class="site-wrapper overflow-hidden position-relative">
+      <!--Site Header Area -->
+      <header class="site-header site-header--menu-left landing-11-menu site-header--absolute site-header--sticky">
+        <div class="container">
+          <nav class="navbar site-navbar">
+            <!-- Brand Logo-->
+            <div class="brand-logo">
+              <a href="">
+                <!-- light version logo (logo must be black)-->
+                <img src="{%static '../static/home/image/logo/MLPMS2.jpg' %}" alt="" class="light-version-logo">
+                <!-- Dark version logo (logo must be White)-->
+                <!-- <img src="{%static '../static/home/image/logo/logo-white.png' %}" alt="" class="dark-version-logo"> -->
+              </a>
             </div>
+            <div class="menu-block-wrapper">
+              <div class="menu-overlay"></div>
+              <nav class="menu-block" id="append-menu-header">
+                <div class="mobile-menu-head">
+                  <div class="go-back">
+                    <i class="fa fa-angle-left"></i>
+                  </div>
+                  <div class="current-menu-title"></div>
+                  <div class="mobile-menu-close">&times;</div>
+                </div>
+                <ul class="site-menu-main">
+                  <li class="nav-item nav-item-has-children">
+                    <a href="#" class="nav-link-item drop-trigger">Pages <i class="fas fa-angle-down"></i>
+                    </a>
+                    <ul class="sub-menu" id="submenu-9">
+                      <li class="sub-menu--item">
+                        <a href="entry">Entry Page</a>
+                      </li>
+                      <li class="sub-menu--item">
+                        <a href="exit">Exit Page</a>
+                      </li>
+                      <li class="sub-menu--item">
+                        <a href="floor">Floor Page</a>
+                      </li>
+                      <li class="sub-menu--item">
+                        <a href="settings">Settings Page</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="header-btns  header-btn-l11 ms-auto d-none d-xs-inline-flex align-items-center">
+              <a class="btn log-in-btn focus-reset" href="login">
+                Sign in
+              </a>
+              <a class="download-trail-btn btn focus-reset" href="register">
+                Sign Up
+              </a>
+            </div>
+            <!-- mobile menu trigger -->
+            <div class="mobile-menu-trigger">
+              <span></span>
+            </div>
+            <!--/.Mobile Menu Hamburger Ends-->
+          </nav>
         </div>
-        
-    </div>    
-    
-    
-    <h3>Problems being faced earlier:</h3>
-    <ol >
-        <li >Multiple guards at the entry and exit section of MLP(multilevel parking), and one guard for each of the
-            floors above the ground floor.</li>
-        <li >Static pricing - a fixed charge(25rs for 4 wheelers & 12rs for 2 wheelers) is taken for parking duration
-            ranging from 0 - 4 hours. Then extra charge is taken if the owner of the vehicle exceeds the time limit
-            (this happens at the exit section).</li>
-        <li >All payments are currently being done in cash which is time taking as well as not so convenient for all
-            vehicle owners.</li>
-        <li >No system to keep track of how many cars are parked on each floor. This can lead to crowded parking
-            (lower floors are heavily crowded, while upper floors might be empty). The guards on each floor do not
-            work well, as a result, vehicle owners have to waste time and energy searching for space on each of
-            the lower floors before parking on some upper floor.</li>
-        <li >No system to charge fines to vehicle owners who park their vehicles improperly and cause
-            inconvenience to other vehicle owners.</li>
-        <li >No detailed collection of data on entry-exit of cars, which could be used to find out the peak hours and
-            adopt dynamic pricing</li>
-    </ol>
-    <h3>Features introduced to solve the above problems:</h3>
-    <ol >
-        <li>Only 2 guards needed - for entry/exit irrespective of the number of floors (if floors increase because of
-            traffic load, the number of guards still remains same)</li>
-        <li>Dynamic pricing model will be used by the system to calculate fares - higher fares will be taken during
-            rush/peak hours of traffic</li>
-        <li>An option to pay online via dynamic QR codes - vehicle owners only scan and fill UPI pin (amount to be
-            paid is already fed to the QR code) - Digital Payments are promoted, time is saved, and convenient for
-            many people</li>
-        <li>The cameras at each floor will be utilised to keep track of cars at each floor. Accordingly, the system will
-            assign floors, based on a routing algorithm, to new cars at the entry section hence will ensure sparse/
-            distributed parking, and will save time of vehicle owners searching for space at each floor.</li>
-        <li>Since cameras are keeping track of cars on each floor, those cars parked on a floor different from the
-            floor assigned to them will fined at exit section.</li>
-        <li>A proper database is being maintained where details like car plate number, entry time, floor assigned,
-            floor entered, payment mode, amount of fine, etc will be stored which can be analyzed to determine
-            rush/peak hours and also for other essential information.</li>
-    </ol>
-    <center><img src="{% static '../static/dp_model.jpg' %}" height="270" width="270" style="border: 2px solid black"/></center>
-</body>
+      </header>
+      <!-- navbar- -->
+      <!-- Hero Area -->
+      <div class="hero-area-l11 position-relative z-index-1 overflow-hidden">
+        <div class="container position-relative">
+          <div class="row position-relative justify-content-center">
+            <div class="col-xl-8 col-lg-9 col-md-12 order-lg-1 order-1" data-aos="fade-up" data-aos-duration="500" data-aos-once="true">
+              <div class="content">
+                <h1>Multilevel Parking<br class="d-none d-md-block"> Management System</h1>
+                <div class="row banner-l-11-bottom-content">
+                  <div class="col-lg-8 col-md-8 col-sm-10">
+                    <p class="position-relative banner-main-content-l-11">
+                      Do more with less! <br>More facilities, better experience with lesser manpower! <br>
+                      Automate your multilevel parking and get rid of the manual inefficacies !
+                      <span class="line-left-content"></span>
+                    </p>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 flex-y-center ">
+                    <a class="btn l-11-hero-btn" href="register">Love the Solution?</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- Content Area-1 -->
+      <div class="content-area-l-11-1">
+        <div class="container">
+          <div class="row align-items-center justify-content-lg-start justify-content-center">
+            <div class="col-xl-6 col-md-5 col-md-10" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
+              <div class="content-img position-relative z-index-1">
+                <img src="{%static '../static/home/image/l2/content-img1.png'%}" alt="" class="w-100">
+              </div>
+            </div>
+            <div class="offset-xxl-1 col-xxl-5 col-xl-6 col-lg-7 col-md-9" data-aos="fade-left" data-aos-duration="800" data-aos-once="true">
+              <div class="content section-heading-5">
+                <h2>
+                  Level up your Multilevel Parking's management!
+                </h2>
+                <p>Modern, customised, software-driven solution for your multilevel parking</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Content Area-2  -->
+      <div class="content-area-l-11-2">
+        <div class="container">
+          <div class="row align-items-center justify-content-lg-between justify-content-center">
+            <div class="col-xxl-4 col-xl-5 col-lg-6 col-md-9 order-lg-1 order-1" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
+              <div class="content section-heading-5">
+                <h2>
+                  High returns, low maintenance, affordable 1-time investment.
+                </h2>
+                <div class="d-flex content-l-11-3-card">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="27" viewBox="0 0 32 27">
+                    <g>
+                      <g>
+                        <g>
+                          <path class="mypath1" fill="none" stroke="#258aff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="20" stroke-width="2" d="M25.528 25.615v0h5.47v0-5.911c0-.56-.341-1.062-.86-1.27l-5.118-2.05a1.367 1.367 0 0 1-.86-1.267v-1.2a5.445 5.445 0 0 0 2.735-4.711V6.471a5.47 5.47 0 0 0-8.205-4.738">
+                          </path>
+                        </g>
+                        <g>
+                          <path class="mypath1" fill="none" stroke="#258aff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="20" stroke-width="2" d="M19.367 19.846l-5.14-2.036a1.358 1.358 0 0 1-.864-1.257v-1.192a5.394 5.394 0 0 0 2.747-4.676V7.97c0-2.999-2.46-5.43-5.495-5.43-3.034 0-5.494 2.431-5.494 5.43v2.715a5.394 5.394 0 0 0 2.747 4.676v1.192c0 .555-.342 1.054-.864 1.26l-5.14 2.036c-.52.206-.863.703-.864 1.257v4.51h19.23v0-4.51c0-.555-.342-1.054-.863-1.26z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                  <div class="content-body">
+                    <h5>Easy setup process</h5>
+                    <p>Relax while we take care of the entire setup! </p>
+                  </div>
+                </div>
+                <div class="d-flex content-l-11-3-card">
+                  <img src="{%static '../static/home/image/l2/settings.svg'%}" alt="icon">
+                  <div class="content-body">
+                    <h5>Built for real users</h5>
+                    <p>Editing and customizing our product as per your requirements is easy and fast.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xxl-6 offset-xxl-2 col-xl-6 col-lg-5 col-md-9 order-lg-1 order-0" data-aos="fade-left" data-aos-duration="800" data-aos-once="true">
+              <div class="content-img">
+                <img src="{%static '../static/home/image/l2/content-img2.png'%}" alt="" class="w-lg-auto w-100">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Feature Area -->
+      <div class="feature-l-11">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-9 px-lg-12 col-md-12">
+              <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                  <div class="section-heading-5">
+                    <h2>
+                      Your &nbsp; Problems &nbsp; V/s &nbsp; Our &nbsp; Solution
+                    </h2>
+                    <p>We identified the pain points in the management of your Multilevel parking.<br> Together, we shaped the new standard.</p>
+                  </div>
+                </div>
+              </div>
+              <!-- -->
+              <div class="row feature-l-11-items justify-content-center">
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                      <!-- <i class="icon icon-pen"></i> -->
+                      <!-- <span class="fa-solid fa-people-group" style="color: #ffffff;"></span> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>High Manpower</h5>
+                      <p>Multiple guards at the entry and exit section of MLP(multilevel parking), and one guard for each of the
+                        floors above the ground floor.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="800" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                        <span style="color: aliceblue;"> v/s</span>
+                      <!-- <i class="icon icon-layers-3"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Just 2!</h5>
+                      <p>Only 2 guards needed - for entry/exit irrespective of the number of floors (if floors increase because of
+                        traffic load, the number of guards still remains same)</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- -->
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="1000" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                      <!-- <i class="icon icon-office"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Static pricing</h5>
+                      <p>A fixed charge(25rs for 4 wheelers & 12rs for 2 wheelers) is taken for parking duration
+                        ranging from 0 - 4 hours. Then extra charge is taken if the owner of the vehicle exceeds the time limit
+                        (this happens at the exit section).</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="1000" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                        <span style="color: aliceblue;"> v/s</span>
+                      <!-- <i class="icon icon-book-open-2"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Dynamic pricing</h5>
+                      <p>Dynamic pricing model will be used by the system to calculate fares - higher fares will be taken during
+                        higher levels of occupancy</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- -->
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                      <!-- <i class="icon icon-pen-01"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Cash-related Hassle</h5>
+                      <p>All payments are currently being done in cash which is time taking as well as not so convenient for all
+                        vehicle owners.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                        <span style="color: aliceblue;"> v/s</span>
+                      <!-- <i class="icon icon-settings-gear-64-2"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Cash + 'No Cash' payments !</h5>
+                      <p>An option to pay online! Vehicle owners only scan and fill UPI pin (amount to be
+                        paid is already fed to the QR code) - Digital Payments are promoted, time is saved, and convenient for
+                        many people</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- -->
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                      <!-- <i class="icon icon-pen-01"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>No Tracking</h5>
+                      <p>No system to keep track of how many cars are parked on each floor. This can lead to crowded parking
+                        (lower floors are heavily crowded, while upper floors might be empty). The guards on each floor do not
+                        work well, as a result, vehicle owners have to waste time and energy searching for space on each of
+                        the lower floors before parking on some upper floor.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                        <span style="color: aliceblue;"> v/s</span>
+                      <!-- <i class="icon icon-settings-gear-64-2"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Realtime Tracking + Routing</h5>
+                      <p>The cameras at each floor will be utilised to keep track of cars at each floor. Accordingly, the system will
+                        assign floors, based on a routing algorithm, to new cars at the entry section hence will ensure sparse/
+                        distributed parking, and will save time of vehicle owners searching for space at each floor.</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- -->
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                      <!-- <i class="icon icon-pen-01"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>No Fines</h5>
+                      <p>No system to charge fines to vehicle owners who park their vehicles improperly and cause
+                        inconvenience to other vehicle owners.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                        <span style="color: aliceblue;"> v/s</span>
+                      <!-- <i class="icon icon-settings-gear-64-2"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Charge Fines</h5>
+                      <p>Since cameras are keeping track of cars on each floor, those cars parked on a floor different from the
+                        floor assigned to them will fined at exit section.</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- -->
+                <div class="col-md-6" data-aos="fade-right" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                      <!-- <i class="icon icon-pen-01"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>No data collection</h5>
+                      <p>No detailed collection of data on entry-exit of cars, which could be used to find out the peak hours and
+                        adopt dynamic pricing.</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div> v/s </div> -->
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="1200" data-aos-once="true">
+                  <div class="d-flex ">
+                    <div class="icon-box">
+                        <span style="color: aliceblue;"> v/s</span>
+                      <!-- <i class="icon icon-settings-gear-64-2"></i> -->
+                    </div>
+                    <div class="content-body">
+                      <h5>Collection of data</h5>
+                      <p>A proper database is being maintained where details like car plate number, entry time, floor assigned,
+                        floor entered, payment mode, amount of fine, etc will be stored which can be analyzed to determine
+                        rush/peak hours and also for other essential information.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Testimonial Section -->
+      <div class="testimonial-area-l-11">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-9" data-aos="fade-down" data-aos-duration="800" data-aos-once="true">
+              <div class="section-heading-5 text-center">
+                <!-- <h2>  30,000+ Customers Trust Us  </h2> -->
+                <p>We identified the pain points in your multilevel parking's management. Together, we shaped the new standard.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer Area -->
+      <footer class="footer-l-11 text-center text-md-start">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="footer-logo-l-11">
+                <a href=""><img src="{%static '../static/home/image/logo/MLPMS2.jpg' %}" alt="logo"></a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="footer-widget-l-11">
+                <ul class="pl-0 list-unstyled d-flex flex-wrap justify-content-center align-items-end ">
+                  <li class="d-flex"><a href="">About</a></li>
+                  <li class="d-flex"><a href="">Features</a></li>
+                  <li class="d-flex"><a href="">Works</a></li>
+                  <li class="d-flex"><a href="">Career</a></li>
+                  <li class="d-flex"><a href="">Contact</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="social-icons-l-11">
+                <ul class="pl-0 list-unstyled d-flex  justify-content-center justify-content-md-end align-items-end ">
+                  <li class="d-flex flex-column justify-content-center"><a href="#"><i
+                                      class="fab fa-twitter"></i></a></li>
+                  <li class="d-flex flex-column justify-content-center"><a href="#"><i
+                                      class="fab fa-facebook-f"></i></a></li>
+                  <li class="d-flex flex-column justify-content-center"><a href="#"><i
+                                      class="fab fa-google"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <div class="copyright-area-l-11">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-center">
+                <p>© Grayic 2021 All right reserved. </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Vendor Scripts -->
+    <script src="{%static '../static/home/js/vendor.min.js' %}"></script>
+    <!-- Plugin's Scripts -->
+    <script src="{%static '../static/home/plugins/aos/aos.min.js' %}  "></script>
+    <script src="{%static '../static/home/plugins/slick/slick.min.js' %}  "></script>
+    <script src="{%static '../static/home/plugins/menu/menu.js' %}"></script>
+    <!-- Activation Script -->
+    <script src="{%static '../static/home/js/custom.js' %}"></script>
+  </body>
 </html>
