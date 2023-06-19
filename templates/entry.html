@@ -5,28 +5,73 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>entry</title>
+        {%load static%}
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700,900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="{%static '../static/form/fonts/icomoon/style.css'%}">
+
+        <link rel="stylesheet" href="{%static '../static/form/css/owl.carousel.min.css'%}">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{%static '../static/form/css/bootstrap.min.css'%}">
+        
+        <!-- Style -->
+        <link rel="stylesheet" href="{%static '../static/form/css/style.css'%}">
     </head>
     <body>
-    {% for msg in messages %}
-        <h5 style="color: red;text-align: center;">{{msg}}</h5>
-    {% endfor %}
-    {% if user.is_authenticated %}
-        <form method="POST" action="entry">
-            {% csrf_token %}
-            <label for="i1">Enter car number(without space):</label>
-            <input type="text" id="i1" name="car_number"/>
-            <br>
-            <input type="submit"/>
-        </form>
-        <a href="exit">exit page</a>
-        <br>
-        <a href="floor">floor page</a>
-        <br>
-        <a href="settings">settings page</a>
-        <br>
-        <a href="logout">Log Out</a>
-    {% else %}
-        <a href="login">First, login here</a>
-    {% endif %}
+    <div class="content">
+    
+        <div class="container">
+    
+          
+          <div class="row justify-content-center">
+            <div class="col-md-10">
+              
+              <div class="row align-items-center">
+                <div class="col-lg-7 mb-5 mb-lg-0">
+    
+                  <h2 class="mb-5">Entry Page</h2>
+    
+                  <form class="border-right pr-5 mb-5" method="POST" id="contactForm" name="contactForm" action="entry">
+                    {%csrf_token%}
+                    <div class="row">
+                      <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" name="car_number" id="email" placeholder="Car Number (without spaces)">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="submit" value="Submit" class="btn btn-primary rounded-0 py-2 px-4">
+                        <span class="submitting"></span>
+                      </div>
+                    </div>
+                  </form>
+    
+                  <div id="form-message-warning mt-4"></div> 
+                  <div id="form-message-success">
+                    Car entry done!
+                  </div>
+    
+                </div>
+                <div class="col-lg-4 ml-auto">
+                  <h4 class="mb-4">Entering a different floor attracts fine.</h4>
+                  {% for msg in messages%} 
+                    <p>{{msg}}</p>
+                  {%endfor%}
+                  <p><a href="exit">Exit Page</a></p>
+                  <p><a href="floor">Floor Page</a></p>
+                  <p><a href="settings">Settings Page</a></p>
+                  <p><a href="logout">Logout</a></p>
+                </div>
+              </div>
+            </div>  
+            </div>
+          </div>
+      </div>
+        <!-- <script src="{%static '../static/form/js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{%static '../static/form/js/popper.min.js' %}"></script>
+        <script src="{%static '../static/form/js/bootstrap.min.js' %}"></script>
+        <script src="{%static '../static/form/js/jquery.validate.min.js' %}"></script>
+        <script src="{%static '../static/form/js/main.js' %}"></script> -->
 </body>
 </html>

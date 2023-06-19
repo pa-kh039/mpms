@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>settings</title>
+    {%load static%}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{%static '../static/settings/css/style.css' %}">
 </head>
 <body>
 
@@ -12,45 +16,132 @@
     <h5 style="color: red;text-align: center;">{{msg}}</h5>
     {% endfor %}
     {% if user.is_authenticated %}
-        <h2>Current Settings:</h2>
-        Total Floors: {{totalfloors}}
-        <br>
-        Fare per interval (3 mins): {{fpi}}
-        <br>
-        Threshold (%): {{threshold}}
-        <br>
-        Floor Capacity: {{floorcapacity}}
-        <br>
-        Dynamic Pricing: {{dynamicpricing}}  <form action="change_dp_mode" method="POST">{% csrf_token %}<input type="submit" value="Change DP Mode"/></form>
-        <br>
-        <h2>Set new values below:</h2>
-        <h3>IMPORTANT: Please update the settings only when there are no cars inside..as the entire database is reset on updating settings</h3><br>
-        <form action="settings" method="POST">
-            {% csrf_token %}
-            <label for="i1">Enter Total Floors:</label>
-            <input type="number" id="i1" name="totalfloors"/>
-            <br>
-            <label for="i2">Enter Fare per interval (3 mins):</label>
-            <input type="number" id="i2" name="fpi"/>
-            <br>
-            <label for="i3">Enter Threshold (%) (recommended value is 80):</label>
-            <input type="number" id="i3" name="threshold"/>
-            <br>
-            <label for="i4">Floor capacity:</label>
-            <input type="number" id="i4" name="floorcapacity"/>
-            <br>
-            <input type="submit"/>
-        </form>
-        <br>
-        <a href="logout">Log Out</a>
-        <br>
-        <a href="exit">exit page</a>
-        <br>
-        <a href="floor">floor page</a>
-        <br>
-        <a href="entry">entry page</a>
-    {% else %}
-        <a href="login">First, login here</a>
-    {% endif %}
+    <section class= "ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Current Settings:</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div class="wrapper">
+						<div class="row mb-5">
+							<div class="col-md-3">
+								<div class="dbox w-100 text-center">
+			        		<div class="icon d-flex align-items-center justify-content-center">
+			        			<span class="fa fa-building-o"></span>
+			        		</div>
+			        		<div class="text">
+				            <p><span>Total Floors:</span>  {{totalfloors}}</p>
+				          </div>
+			          </div>
+							</div>
+							<div class="col-md-3">
+								<div class="dbox w-100 text-center">
+			        		<div class="icon d-flex align-items-center justify-content-center">
+			        			<span class="fa fa-inr"></span>
+			        		</div>
+			        		<div class="text">
+				            <p><span>Fare per interval (3 mins): </span> {{fpi}}</p>
+				          </div>
+			          </div>
+							</div>
+							<div class="col-md-3">
+								<div class="dbox w-100 text-center">
+			        		<div class="icon d-flex align-items-center justify-content-center">
+			        			<span class="fa fa-percent"></span>
+			        		</div>
+			        		<div class="text">
+				            <p><span>Threshold (%): </span> {{threshold}}</p>
+				          </div>
+			          </div>
+							</div>
+							<div class="col-md-3">
+								<div class="dbox w-100 text-center">
+			        		<div class="icon d-flex align-items-center justify-content-center">
+			        			<span class="fa fa-arrow-up"></span>
+			        		</div>
+			        		<div class="text">
+				            <p><span>Floor Capacity: </span> {{floorcapacity}}</p>
+				          </div>
+			          </div>
+							</div>
+							<div class="col-md-12">
+								<div class="dbox w-100 text-center">
+			        		<div class="icon d-flex align-items-center justify-content-center">
+			        			<span class="fa fa-bar-chart"></span>
+			        		</div>
+			        		<div class="text">
+				            <p><span>Dynamic Pricing: </span>{{dynamicpricing}}  <form action="change_dp_mode" method="POST">{% csrf_token %}<input type="submit" value="Change DP Mode"/></form></p>
+				          </div>
+			          </div>
+							</div>
+						</div>
+						<div class="row no-gutters">
+							<div class="col-md-7">
+								<div class="contact-wrap w-100 p-md-5 p-4">
+									<h3 class="mb-4">Update Settings</h3>
+									<div id="form-message-warning" class="mb-4"></div> 
+				      		<div id="form-message-success" class="mb-4">
+				            Settings updated !
+				      		</div>
+									<form method="POST" id="contactForm" name="contactForm" class="contactForm" action="settings">
+										{% csrf_token %}
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="label" for="totalfloors">Enter Total Floors:</label>
+													<input type="number" class="form-control" name="totalfloors" id="name" placeholder="Total Floors">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="fpi">Enter Fare per interval (3 mins):</label>
+													<input type="number" class="form-control" name="fpi" id="email" placeholder="Fare per interval">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="threshold">Enter Threshold (%) (recommended value is 80):</label>
+													<input type="number" class="form-control" name="threshold" id="subject" placeholder="Threshold">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="floorcapacity">Floor capacity:</label>
+													<input type="number" class="form-control" name="floorcapacity" id="subject2" placeholder="Floor Capacity">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="Update" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-md-5 d-flex align-items-stretch">
+								<div class="info-wrap w-100 p-5 img" style="background-image:  url( '../static/settings/images/ic.png') ;">
+			          </div>
+							</div>
+						</div>
+						<div class="col-md-12 ml-auto">				
+							{% for msg in messages%} 
+								<p>{{msg}}</p>
+							{%endfor%}
+							<a href="exit">Exit Page</a> &nbsp; &nbsp;
+							<a href="entry">Entry Page</a> &nbsp; &nbsp;
+							<a href="settings">Floor Page</a> &nbsp; &nbsp;
+							<a href="logout">Logout</a> &nbsp; &nbsp;
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    {%endif%}
 </body>
 </html>
