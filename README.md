@@ -1,4 +1,5 @@
 # Multilevel Parking Management System
+## Deployed at https://multilevel-parking-management-system.vercel.app
 ## Steps
 1. Clone the repo
 2. Make a virtual environment in the same location as the 'mpms' folder
@@ -28,8 +29,16 @@
         
         # App password to your gmail [NOT the password of your google account, generate app password separately]
         passw='ccccccccc'   
-9. `python manage.py runserver` to start the development server
-10. Use the web app
-11. Quit the server with `CTRL+C` and deactivate virtual env with `deactivate`
+
+         aws_access_key='AAAAAAAA'
+
+         aws_secret_access_key='xxxxxxxxxxxxxx'
+
+         aws_storage_bucket_name='gggggggg'
+
+         amazon_rds_database_password='aaaaaaaa'
+10. `python manage.py runserver` to start the development server
+11. Use the web app
+12. Quit the server with `CTRL+C` and deactivate virtual env with `deactivate`
 
 Lastly, there is 1 open issue in this repository! If you would like to contribute, comment on the issue to show your interest and I'll assign it to you!
