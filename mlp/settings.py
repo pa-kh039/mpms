@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from config import dsk,key1,key2,email,passw,aws_access_key,aws_secret_access_key,aws_storage_bucket_name
+from config import dsk,key1,key2,email,passw,aws_access_key,aws_secret_access_key,aws_storage_bucket_name,amazon_rds_database_password
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +26,7 @@ SECRET_KEY = dsk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,13 +77,28 @@ WSGI_APPLICATION = 'mlp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+# sqlite database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# postgresql database
+DATABASES={
+    'default':
+    {
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME':'demo_1',
+        'USER':'postgres',
+        'PASSWORD':amazon_rds_database_password,
+        'HOST':'database-1.cyiurr10hakh.ap-south-1.rds.amazonaws.com',
+        'PORT':'5433'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -137,11 +152,6 @@ EMAIL_USE_TLS=True
 EMAIL_PORT=587
 EMAIL_HOST_USER= email
 EMAIL_HOST_PASSWORD=passw
-
-# import os
-# STATIC_URL = 'static/'
-# STATICFILES_DIRS=(os.path.join(BASE_DIR,'static'),)
-
 
 # aws programmatic access credentials here
 AWS_ACCESS_KEY=aws_access_key

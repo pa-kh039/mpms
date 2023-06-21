@@ -32,6 +32,8 @@
          aws_access_key='AAAAAAAA'
 
          aws_secret_access_key='xxxxxxxxxxxxxx'
+
+         aws_storage_bucket_name='gggggggg'
 9. `python manage.py runserver` to start the development server
 10. Use the web app
 11. Quit the server with `CTRL+C` and deactivate virtual env with `deactivate`
