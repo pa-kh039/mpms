@@ -28,6 +28,10 @@
         
         # App password to your gmail [NOT the password of your google account, generate app password separately]
         passw='ccccccccc'   
+
+         aws_access_key='AAAAAAAA'
+
+         aws_secret_access_key='xxxxxxxxxxxxxx'
 9. `python manage.py runserver` to start the development server
 10. Use the web app
 11. Quit the server with `CTRL+C` and deactivate virtual env with `deactivate`

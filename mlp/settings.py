@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from config import dsk,key1,key2,email,passw
+from config import dsk,key1,key2,email,passw,aws_access_key,aws_secret_access_key,aws_storage_bucket_name
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app1'
+    'app1',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS=[BASE_DIR/'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -136,6 +138,17 @@ EMAIL_PORT=587
 EMAIL_HOST_USER= email
 EMAIL_HOST_PASSWORD=passw
 
-import os
-STATIC_URL = 'static/'
-STATICFILES_DIRS=(os.path.join(BASE_DIR,'static'),)
+# import os
+# STATIC_URL = 'static/'
+# STATICFILES_DIRS=(os.path.join(BASE_DIR,'static'),)
+
+
+# aws programmatic access credentials here
+AWS_ACCESS_KEY=aws_access_key
+AWS_SECRET_ACCESS_KEY=aws_secret_access_key
+
+#aws s3 bucket credentials
+AWS_STORAGE_BUCKET_NAME=aws_storage_bucket_name
+DEFAULT_FILE_STORAGE="storages.backends.s3boto3.S3Boto3Storage"
+STATICFILES_STORAGE="storages.backends.s3boto3.S3Boto3Storage"
+AWS_S3_CUSTOM_DOMAIN="{}.s3.amazonaws.com".format(AWS_STORAGE_BUCKET_NAME)

@@ -8,10 +8,10 @@
     <link rel="shortcut icon" href="image/favicon.png" type="image/x-icon">
     <!-- Bootstrap , fonts & icons  -->
     {%load static%}
-    <link rel="stylesheet" href="{%static '../static/home/css/bootstrap.css'%}">
-    <link rel="stylesheet" href="{%static '../static/home/fonts/icon-font/css/style.css'%}">
-    <link rel="stylesheet" href="{%static '../static/home/fonts/typography-font/typo.css'%}">
-    <link rel="stylesheet" href="{%static '../static/home/fonts/fontawesome-5/css/all.css'%}">
+    <link rel="stylesheet" href="{%static 'home/css/bootstrap.css'%}">
+    <link rel="stylesheet" href="{%static 'home/fonts/icon-font/css/style.css'%}">
+    <link rel="stylesheet" href="{%static 'home/fonts/typography-font/typo.css'%}">
+    <link rel="stylesheet" href="{%static 'home/fonts/fontawesome-5/css/all.css'%}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -20,10 +20,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Plugin'stylesheets  -->
-    <link rel="stylesheet" href="{%static '../static/home/plugins/aos/aos.min.css'%}">
-    <link rel="stylesheet" href="{%static '../static/home/plugins/slick/slick.min.css'%}">
+    <link rel="stylesheet" href="{%static 'home/plugins/aos/aos.min.css'%}">
+    <link rel="stylesheet" href="{%static 'home/plugins/slick/slick.min.css'%}">
     <!-- Vendor stylesheets  -->
-    <link rel="stylesheet" href="{%static '../static/home/css/main.css'%}">
+    <link rel="stylesheet" href="{%static 'home/css/main.css'%}">
 </head>
 <body data-theme-mode-panel-active data-theme="light" style="font-family: 'Mazzard H';">
     <div class="site-wrapper overflow-hidden position-relative">
@@ -35,9 +35,9 @@
             <div class="brand-logo">
               <a href="">
                 <!-- light version logo (logo must be black)-->
-                <img src="{%static '../static/home/image/logo/MLPMS2.jpg' %}" alt="" class="light-version-logo">
+                <img src="{%static 'home/image/logo/MLPMS2.jpg' %}" alt="" class="light-version-logo">
                 <!-- Dark version logo (logo must be White)-->
-                <!-- <img src="{%static '../static/home/image/logo/logo-white.png' %}" alt="" class="dark-version-logo"> -->
+                <!-- <img src="{%static 'home/image/logo/logo-white.png' %}" alt="" class="dark-version-logo"> -->
               </a>
             </div>
             <div class="menu-block-wrapper">
@@ -118,7 +118,7 @@
           <div class="row align-items-center justify-content-lg-start justify-content-center">
             <div class="col-xl-6 col-md-5 col-md-10" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
               <div class="content-img position-relative z-index-1">
-                <img src="{%static '../static/home/image/l2/content-img1.png'%}" alt="" class="w-100">
+                <img src="{%static 'home/image/l2/content-img1.png'%}" alt="" class="w-100">
               </div>
             </div>
             <div class="offset-xxl-1 col-xxl-5 col-xl-6 col-lg-7 col-md-9" data-aos="fade-left" data-aos-duration="800" data-aos-once="true">
@@ -162,7 +162,7 @@
                   </div>
                 </div>
                 <div class="d-flex content-l-11-3-card">
-                  <img src="{%static '../static/home/image/l2/settings.svg'%}" alt="icon">
+                  <img src="{%static 'home/image/l2/settings.svg'%}" alt="icon">
                   <div class="content-body">
                     <h5>Built for real users</h5>
                     <p>Editing and customizing our product as per your requirements is easy and fast.</p>
@@ -172,7 +172,8 @@
             </div>
             <div class="col-xxl-6 offset-xxl-2 col-xl-6 col-lg-5 col-md-9 order-lg-1 order-0" data-aos="fade-left" data-aos-duration="800" data-aos-once="true">
               <div class="content-img">
-                <img src="{%static '../static/home/image/l2/content-img2.png'%}" alt="" class="w-lg-auto w-100">
+                
+                <img src="{%static 'home/image/l2/content-img2.png'%}" alt="" class="w-lg-auto w-100">
               </div>
             </div>
           </div>
@@ -382,7 +383,7 @@
           <div class="row">
             <div class="col-md-3">
               <div class="footer-logo-l-11">
-                <a href=""><img src="{%static '../static/home/image/logo/MLPMS2.jpg' %}" alt="logo"></a>
+                <a href=""><img src="{%static 'home/image/logo/MLPMS2.jpg' %}" alt="logo"></a>
               </div>
             </div>
             <div class="col-md-6">
@@ -424,12 +425,12 @@
       </div>
     </div>
     <!-- Vendor Scripts -->
-    <script src="{%static '../static/home/js/vendor.min.js' %}"></script>
+    <script src="{%static 'home/js/vendor.min.js' %}"></script>
     <!-- Plugin's Scripts -->
-    <script src="{%static '../static/home/plugins/aos/aos.min.js' %}  "></script>
-    <script src="{%static '../static/home/plugins/slick/slick.min.js' %}  "></script>
-    <script src="{%static '../static/home/plugins/menu/menu.js' %}"></script>
+    <script src="{%static 'home/plugins/aos/aos.min.js' %}  "></script>
+    <script src="{%static 'home/plugins/slick/slick.min.js' %}  "></script>
+    <script src="{%static 'home/plugins/menu/menu.js' %}"></script>
     <!-- Activation Script -->
-    <script src="{%static '../static/home/js/custom.js' %}"></script>
+    <script src="{%static 'home/js/custom.js' %}"></script>
   </body>
 </html>
