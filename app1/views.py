@@ -138,9 +138,11 @@ def assign_floor(user): #-----------------pass user obj here from entry function
     return -1
 
 # for entry page
-@login_required(login_url="/login")
+# @login_required(login_url="/login")
 def entry(request):
     if request.method=='POST':
+        if not request.user.is_authenticated:
+            return redirect('/login')
         username=request.user
         user_obj=User.objects.get(username=username)
         car_number=(request.POST['car_number']).lower()
@@ -178,9 +180,11 @@ def decrement_car_count(user,floor_number):
     user_obj.save()
 
 # for exit page
-@login_required(login_url="/login")
+# @login_required(login_url="/login")
 def exit(request):
     if request.method=='POST':
+        if not request.user.is_authenticated:
+            return redirect('/login')
         car_number=request.POST['car_number']
         try:
             last_entry=ParkingEntry.objects.get(username=request.user,car_number=car_number)
@@ -224,9 +228,11 @@ def pay(request,amount):
     return render(request,'pay.html',context)
 
 # for floor page
-@login_required(login_url="/login")
+# @login_required(login_url="/login")
 def floor(request):
     if request.method=='POST':
+        if not request.user.is_authenticated:
+            return redirect('/login')
         floor_number=int(request.POST['floor_number'])  #have to cast string to int 
         car_number=request.POST['car_number']
         current_user=request.user
