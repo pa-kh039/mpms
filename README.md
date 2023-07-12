@@ -1,5 +1,5 @@
 # Multilevel Parking Management System
-## Deployed at https://multilevel-parking-management-system.vercel.app
+## Deployed at https://multi-level-parking-management-system.vercel.app
 ## Steps
 1. Clone the repo
 2. Make a virtual environment in the same location as the 'mpms' folder
