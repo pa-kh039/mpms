@@ -11,6 +11,7 @@ import datetime
 import pytz
 import razorpay
 import uuid
+from utils.number_plate_reader import read
 from mlp.settings import RAZORPAY_API_KEY,RAZORPAY_API_SECRET_KEY,EMAIL_HOST_USER
 
 # for main page
@@ -145,7 +146,10 @@ def entry(request):
             return redirect('/login')
         username=request.user
         user_obj=User.objects.get(username=username)
-        car_number=(request.POST['car_number']).lower()
+        if request.POST.get('car_number',-1)==-1:
+            car_number=read(0)
+        else:
+            car_number=(request.POST['car_number']).lower()
         current_time=datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
         floorassigned=assign_floor(request.user)
         if floorassigned==-1:
@@ -185,7 +189,10 @@ def exit(request):
     if request.method=='POST':
         if not request.user.is_authenticated:
             return redirect('/login')
-        car_number=request.POST['car_number']
+        if request.POST.get('car_number',-1)==-1:
+            car_number=read(-1)
+        else:
+            car_number=request.POST['car_number']
         try:
             last_entry=ParkingEntry.objects.get(username=request.user,car_number=car_number)
         except Exception as e:
@@ -266,3 +273,13 @@ def change_dp_mode(request):
         user_obj.save()
         messages.info(request,"Dynamic Pricing mode changed..")
     return redirect('settings')
+
+
+# we need to map camera inputs with floors,etc. so for entry- checkpoint=0, exit- checkpoint=-1, floor- checkpoint=floor number, this way images for diff checkpoints will not be overwritten, although there are still a lot of OS concepts to be used for handling concurrency like multithreading
+# but right now floor pages take floor no and car no both as input, openCV will handle car no, where to get the floor no from? So for this I have thought of using dynamic routing - base-url/floor/1 for 1st floor, base-url/floor/2 for 2nd floor,etc. This way we will have access to both floor no. from url and car no. from openCV inside floor view
+# why make the person press 's'? Currently, the model is not accurate enough to identify only number plates as region of interest. Hence we can't save the file and read it (these are time-costly operations) for every ROI detected, so let the user decide for which ROI to save image and read it.
+# also leaving the manual filling option as it is to ensure i can show a full functioning demo
+# well that's not all. Even when I solve all above problems, this solution will work only locally because when the function to read number plate runs, it opens the camera in the machine on which it is running (server) but we want video to come from client browser's webcam
+# when this project is actually deployed in real world, we will map each cctv with a checkpoint number, moreover there will be no client browser, rather there will be client cameras sending streams simultaneously, which will have to be processed simultaneously (lots of threads)
+
+# OVERALL MILES TO GO.....
